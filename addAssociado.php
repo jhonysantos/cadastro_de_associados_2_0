@@ -35,13 +35,13 @@ if (isset($_POST['submit'])) {
             $date_aquisicao = strtotime($data_aquisicao);
             $data_vencimento = strtotime('+30 days', $date_aquisicao);
             $dataVencimento = date('Y-m-d', $data_vencimento);
-        break;
+            break;
         case "anual":
             $data_aquisicao = $_POST['data_aquisicao'];
             $date_aquisicao = strtotime($data_aquisicao);
             $data_vencimento = strtotime('+365 days', $date_aquisicao);
             $dataVencimento = date('Y-m-d', $data_vencimento);
-        break;
+            break;
     }
 
     $result = mysqli_query($conexao, "INSERT INTO associados(nome,estado_civil,nacionalidade,profissao,cpf,email,telefone,
@@ -200,8 +200,9 @@ if (isset($_POST['submit'])) {
                     <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block " value="Cadastrar">
                 </div>
             </form>
+        </fieldset>
     </div>
-    </fieldset>
+
 
 
 

@@ -63,9 +63,10 @@ while ($user_data = mysqli_fetch_assoc($result)) {
     $html .= $user_data['plano'] . "<br/>";
 
     $html .= "<strong>Data de Aquisição: </strong>";
-    $html .= $user_data['data_aquisicao'] . "<hr/>";
+    $html .= $user_data['data_aquisicao'] . "<br/>";
 
-
+    $html .= "<strong>Data de Vencimento: </strong>";
+    $html .= $user_data['data_vencimento']."<hr/>";
 }
 
 require_once __DIR__ . '/vendor/autoload.php';

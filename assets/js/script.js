@@ -64,7 +64,7 @@ async function visualizarAssociado(id) {
     document.getElementById("nacionalidadeAssociado").innerHTML = resposta['dados'].nacionalidade;
     document.getElementById("generoAssociado").innerHTML = resposta['dados'].genero;
     document.getElementById("estadoCivilAssociado").innerHTML = resposta['dados'].estado_civil;
-    document.getElementById("dataNascimentolidadeAssociado").innerHTML = resposta['dados'].data_nascimento;
+    document.getElementById("dataNascimentolidadeAssociado").innerHTML = resposta['dados'].data_nascimento.split('-').reverse().join('/');
     document.getElementById("emailAssociado").innerHTML = resposta['dados'].email;
     document.getElementById("profissaoAssociado").innerHTML = resposta['dados'].profissao;
     document.getElementById("telefoneAssociado").innerHTML = resposta['dados'].telefone;
@@ -72,8 +72,8 @@ async function visualizarAssociado(id) {
     document.getElementById("cidadeAssociado").innerHTML = resposta['dados'].cidade;
     document.getElementById("estadoAssociado").innerHTML = resposta['dados'].estado;
     document.getElementById("planoAssociado").innerHTML = resposta['dados'].plano;
-    document.getElementById("dataAquisicaoAssociado").innerHTML = resposta['dados'].data_aquisicao;
-    document.getElementById("datavencimentoAssociado").innerHTML = resposta['dados'].data_vencimento;
+    document.getElementById("dataAquisicaoAssociado").innerHTML = resposta['dados'].data_aquisicao.split('-').reverse().join('/');
+    document.getElementById("datavencimentoAssociado").innerHTML = resposta['dados'].data_vencimento.split('-').reverse().join('/');
   }
 }
 
@@ -174,25 +174,76 @@ async function editarAssociado(id) {
       ativarCheckbox(checkboxanual);
       break;
     }
-
+    
     document.getElementById("data_aquisicao").value = resposta['dados'].data_aquisicao;
     document.getElementById("id").value = resposta['dados'].id;
   }
 }
 
 async function deleteAssociado(id) {
-  const dados = await fetch('deleteAssociado.php?id=' + id);
+
+  var confirmar = confirm("Tem certeza que deseja excluir o associado selecionado?");
+
+  if(confirmar == true){
+    const dados = await fetch('apagar.php?id='+ id);
+    const resposta = await dados.json();
+    console.log(resposta);
+    document.location.reload(true);
+    if (resposta['erro']) {
+      msgAlerta.innerHTML = resposta['msg'];
+    }else{
+      msgAlerta.innerHTML = resposta['msg'];
+    }
+  }
+}
+
+async function renovarAssociado(id){
+  const dados = await fetch ('renovarAssociado.php?id='+ id);
   const resposta = await dados.json();
   console.log(resposta);
 
   if (resposta['erro']) {
     msgAlerta.innerHTML = resposta['msg'];
   } else {
-    const delModal = new bootstrap.Modal(document.getElementById("removerAssociado"));
-    delModal.show();
+    const renovarModal = new bootstrap.Modal(document.getElementById("renovar-modal"));
+    renovarModal.show();
 
-    document.getElementById("idAssociadoDel").innerHTML = resposta['dados'].id;
-    document.getElementById("nomeAssociadoDel").innerHTML = resposta['dados'].nome;
+    switch(resposta['dados'].plano){
+      case "mensal":
+        const checkboxmen = document.querySelector("#mensal");
+      function ativarCheckbox(el) {
+        el.checked = true;
+      }
+      ativarCheckbox(checkboxmen);
+      break;
+      case "anual":
+        const checkboxanual = document.querySelector("#anual");
+      function ativarCheckbox(el) {
+        el.checked = true;
+      }
+      ativarCheckbox(checkboxanual);
+      break;
+    }
+    document.getElementById("id").value = resposta['dados'].id;
+    document.getElementById("data_vencimento").value = resposta['dados'].data_vencimento;
   }
 }
+
+async function reativarAssociado(id) {
+
+  var confirmarReativacao = confirm("Tem certeza que deseja reativar o associado selecionado?");
+
+  if(confirmarReativacao == true){
+    const dados = await fetch('reativarAssociado.php?id='+ id);
+    const resposta = await dados.json();
+    console.log(resposta);
+    document.location.reload(true);
+    if (resposta['erro']) {
+      msgAlerta.innerHTML = resposta['msg'];
+    }else{
+      msgAlerta.innerHTML = resposta['msg'];
+    }
+  }
+}
+
 

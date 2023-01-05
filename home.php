@@ -92,7 +92,6 @@ while ($data_req = mysqli_fetch_assoc($resultData)) {
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="sair.php">Sair</a></li>
-                            <li><a class="dropdown-item" href="update.php">Update</a></li>
                         </ul>
                     </li>
 
@@ -139,13 +138,25 @@ while ($data_req = mysqli_fetch_assoc($resultData)) {
                                 <ul class="navbar-nav ps-3">
                                     <li>
                                         <a onclick="carregar('addAssociado.php')" class="nav-link px-3" href="#">
-                                            <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                                            <span>Add Associado</span>
+                                            <span class="me-2"><i class="bi bi-person-plus-fill"></i></span>
+                                            <span>Novo associado</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="carregar('listaRenovacao.php')" class="nav-link px-3" href="#">
+                                            <span class="me-2"><i class="bi bi-person-fill-up"></i></span>
+                                            <span>Renovação de associados</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="carregar('associadosCancelados.php')" class="nav-link px-3" href="#">
+                                            <span class="me-2"><i class="bi bi-person-fill-x"></i></span>
+                                            <span>Associados cancelados</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a class="nav-link px-3" href="gerarPdfAssociados.php" target="_blank">
-                                            <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                            <span class="me-2"><i class="bi bi-person-vcard-fill"></i></span>
                                             <span>Imprimir Associados</span>
                                         </a>
                                     </li>
@@ -262,53 +273,9 @@ while ($data_req = mysqli_fetch_assoc($resultData)) {
                                                     echo "<td>" . $user_associado['nome'] . "</td>";
                                                     echo "<td>
                                                     <button id='$user_associado[id]' class='btn btn-success btn-sm' onclick='visualizarAssociado($user_associado[id])'>Visualizar</button>
-                                                    <button id='$user_associado[id]' class='btn btn-primary btn-sm' onclick='editarAssociado($user_associado[id])'>Editar</button>
-                                                    <button id='$user_associado[id]' class='btn btn-warning btn-sm'  data-bs-toggle='modal' data-bs-target='#renovarAssociado'>Renovar</button> 
+                                                    <button id='$user_associado[id]' class='btn btn-warning btn-sm' onclick='editarAssociado($user_associado[id])'>Editar</button>
                                                     <button id='$user_associado[id]' class='btn btn-danger btn-sm'  onclick='deleteAssociado($user_associado[id])'>Excluir</button> 
-                                                    <a class='btn btn-light btn-sm'  href='gerarPdfAssoc.php?id=$user_associado[id]' target='_blank'>Imprimir</a> 
-                                                    
-
-                                                    <!-- Modal Renovar Associado -->
-                                                    <div class='modal fade' id='renovarAssociado' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
-                                                        <div class='modal-dialog' role='document'>
-                                                            <div class='modal-content'>
-                                                                <div class='modal-header'>
-                                                                    <h4 class='modal-title' id='modalLabel'>Excluir Item</h4>
-                                                                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                                                                </div>
-                                                                <div class='modal-body'>
-                                                                Escolha a opção de renovação do plano do associado <b>" . $user_associado['nome'] . "</b>:
-                                                                <br/>
-                                                                
-                                                                <form class='row g-3' action='saveRenovacao.php' method='POST'>
-                                                                <fieldset>
-                                                                    <legend class='col-form-label col-12 fontbold'>Plano de Associado:</legend>
-                                                                    <div class='col-sm-10'>
-                                                                        <div class='form-check'>
-                                                                            <input class='orm-check-input' type='radio' name='plano' id='mensal' value='mensal'>
-                                                                            <label class='form-check-label' for='mensal'>
-                                                                                Mensal
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class='form-check'>
-                                                                            <input class='form-check-input' type='radio' name='plano' id='anual' value='anual'>
-                                                                            <label class='form-check-label' for='anual'>
-                                                                                Anual
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </fieldset>
-                                                                </div>
-                                                                <div class='modal-footer'>
-                                                                    <input type='submit' name='submit' class='btn btn-primary' value='Renovar'>
-                                                                    <button type='button' class='btn btn-danger' data-bs-dismiss='modal'>Não</button>
-                                                                </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <!-- /.modal -->   
-
+                                                    <a class='btn btn-light btn-sm'  href='gerarPdfAssoc.php?id=$user_associado[id]' target='_blank'>Imprimir</a>
                                                     </td>";
                                                     echo "</tr>";
                                                 }
@@ -680,6 +647,7 @@ while ($data_req = mysqli_fetch_assoc($resultData)) {
                     </table>
                 </div>
                 <div class="modal-footer">
+                <a type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="carregar('listaRenovacao.php')" href="#">Renovar</a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
